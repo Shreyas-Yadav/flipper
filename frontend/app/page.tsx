@@ -215,7 +215,7 @@ export default function Home() {
 
           {/* Live camera preview */}
           {showPreview && (
-            <div className="shrink-0 h-96 bg-[#111] flex flex-col items-center justify-center border-b border-[#e0d5c8] overflow-hidden relative">
+            <div className="shrink-0 bg-[#111] flex flex-col items-center justify-center border-b border-[#e0d5c8] overflow-hidden relative" style={{ height: "50vh" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 key={selectedCamera}

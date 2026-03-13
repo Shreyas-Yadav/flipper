@@ -25,7 +25,7 @@ if _logs_enabled:
 
 import cv2
 
-from capture import capture_page
+from capture import capture_page, get_reader
 from ocr import extract_text
 from tts import speak, synthesize
 
@@ -44,22 +44,16 @@ class SpeakRequest(BaseModel):
 
 
 async def _mjpeg_frames(camera_index: int):
-    cap = cv2.VideoCapture(camera_index)
-    if not cap.isOpened():
-        return
-    try:
-        while True:
-            ret, frame = cap.read()
-            if not ret:
-                break
+    reader = get_reader(camera_index)
+    while True:
+        frame = reader.get_frame()
+        if frame is not None:
             _, buf = cv2.imencode(".jpg", frame, [cv2.IMWRITE_JPEG_QUALITY, 70])
             yield (
                 b"--frame\r\n"
                 b"Content-Type: image/jpeg\r\n\r\n" + buf.tobytes() + b"\r\n"
             )
-            await asyncio.sleep(1 / 15)  # ~15 fps
-    finally:
-        cap.release()
+        await asyncio.sleep(1 / 15)  # ~15 fps
 
 
 @app.get("/stream")

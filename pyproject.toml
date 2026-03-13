@@ -1,7 +1,15 @@
 [project]
 name = "flipper"
 version = "0.1.0"
-description = "Add your description here"
+description = "Robotic book reader: webcam + VLM OCR + voice control"
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+  "openai>=1.0",
+  "opencv-python>=4.9",
+  "smallestai>=4.3.0",
+  "sounddevice>=0.4",
+  "scipy>=1.0",
+  "readchar>=4.0",
+  "requests>=2.31",
+]

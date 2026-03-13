@@ -5,9 +5,23 @@ build/
 dist/
 wheels/
 *.egg-info
+.uv/
 
 # Virtual environments
 .venv
 
 # Secrets
 .env
+
+# Temp files
+tmp/
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# uv lock (optional — remove if you want to commit it)
+# uv.lock

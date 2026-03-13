@@ -15,8 +15,8 @@ def _get_client() -> OpenAI:
     global _client
     if _client is None:
         _client = OpenAI(
-            api_key=os.environ["FEATHERLESS_API_KEY"],
-            base_url="https://api.featherless.ai/v1",
+            api_key=os.environ["OCR_API_KEY"],
+            base_url=os.environ.get("OCR_BASE_URL", "https://api.featherless.ai/v1"),
         )
     return _client
 
@@ -25,8 +25,9 @@ def extract_text(image_path: str) -> str:
     with open(image_path, "rb") as f:
         b64 = base64.b64encode(f.read()).decode()
 
+    model = os.environ.get("OCR_MODEL", "Qwen/Qwen3.5-397B-A17B")
     response = _get_client().chat.completions.create(
-        model="Qwen/Qwen3.5-397B-A17B",
+        model=model,
         messages=[
             {
                 "role": "user",

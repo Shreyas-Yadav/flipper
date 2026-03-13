@@ -1,5 +1,6 @@
 import logging
 import os
+from pathlib import Path
 
 import requests
 import sounddevice as sd
@@ -7,7 +8,8 @@ from scipy.io import wavfile
 
 log = logging.getLogger(__name__)
 
-_STT_PATH = "/tmp/flipper_stt.wav"
+_TMP_DIR = Path(__file__).parent / "tmp"
+_STT_PATH = _TMP_DIR / "flipper_stt.wav"
 _SAMPLE_RATE = 16000
 _STT_URL = "https://api.smallest.ai/waves/v1/pulse/get_text"
 
@@ -23,6 +25,7 @@ def listen_for_command(duration: float = 3.0) -> str:
     sd.wait()
     log.debug("Recording complete, shape=%s", audio.shape)
 
+    _TMP_DIR.mkdir(exist_ok=True)
     wavfile.write(_STT_PATH, _SAMPLE_RATE, audio)
     log.debug("WAV saved to %s", _STT_PATH)
 
